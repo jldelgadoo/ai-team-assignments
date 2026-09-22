@@ -13,8 +13,9 @@ clasifica siguiendo el marco público **NIST AI Risk Management Framework (AI RM
 
 - React 18 + TypeScript
 - Vite
-- Sin backend: los datos se cargan desde `public/seed.json` y viven en memoria
-  durante la sesión.
+- Vitest (tests de la lógica pura)
+- Sin backend: los datos iniciales se cargan desde `public/seed.json` y los cambios
+  se guardan en el navegador (`localStorage`).
 
 ## Vistas
 
@@ -26,6 +27,8 @@ clasifica siguiendo el marco público **NIST AI Risk Management Framework (AI RM
    - OK: `70–100%`
    - Sobrecarga: `> 100%`
 3. **Foco del equipo** — capacidad agregada del equipo por nivel de riesgo NIST.
+4. **Equipo y casos** — alta / edición / baja de personas y de casos de uso. No se
+   permite eliminar una persona o un caso que aún tenga asignaciones.
 
 ## Modelo de datos
 
@@ -40,14 +43,17 @@ npm install
 npm run dev      # servidor de desarrollo
 npm run build    # type-check + build de producción
 npm run preview  # previsualizar el build
+npm test         # tests de la lógica (Vitest)
 ```
 
 ## Notas de diseño
 
 - La carga de una persona es la **suma simple** de la dedicación de todas sus
   asignaciones (no se pondera el solapamiento de fechas).
-- Personas y casos de uso son fijos en esta versión; sólo se editan asignaciones.
-- No hay persistencia: al recargar la página el estado vuelve al `seed.json`.
+- **Persistencia:** los cambios (asignaciones, personas y casos de uso) se guardan
+  en `localStorage`. Al abrir la app se restauran desde ahí; si no hay nada
+  guardado, se parte del `seed.json`. El botón **«Reiniciar datos»** borra lo
+  guardado y vuelve al seed original.
 - La clasificación de riesgo es una simplificación cualitativa de 3 niveles
   inspirada en NIST AI RMF, aplicada a datos ficticios.
 

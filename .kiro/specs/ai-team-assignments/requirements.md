@@ -151,3 +151,41 @@ con claridad, para acceder a la información que necesito.
    razonablemente a anchos reducidos.
 4. EL sistema NO DEBERÁ requerir backend ni conexión a servicios externos para
    funcionar.
+
+
+---
+
+## Requisito 7 — Persistencia local de los cambios
+
+**Historia de usuario:** Como usuario, quiero que mis cambios se conserven al
+recargar la página, para no perder el trabajo de la sesión.
+
+### Criterios de aceptación
+1. CUANDO el usuario crea, edita o elimina datos, ENTONCES el sistema DEBERÁ
+   guardar el estado en `localStorage`.
+2. CUANDO la aplicación se inicia y existe estado guardado válido, ENTONCES el
+   sistema DEBERÁ restaurarlo en lugar de recargar el `seed.json`.
+3. SI no hay estado guardado (o es inválido), ENTONCES el sistema DEBERÁ partir del
+   `seed.json`.
+4. CUANDO el usuario pulsa «Reiniciar datos» y confirma, ENTONCES el sistema DEBERÁ
+   borrar lo guardado y restaurar los datos originales del `seed.json`.
+5. SI `localStorage` no está disponible, ENTONCES el sistema DEBERÁ seguir
+   funcionando en memoria sin fallar.
+
+---
+
+## Requisito 8 — Gestión de personas y casos de uso
+
+**Historia de usuario:** Como responsable, quiero dar de alta, editar y eliminar
+personas y casos de uso, para mantener actualizado el catálogo del equipo.
+
+### Criterios de aceptación
+1. EL sistema DEBERÁ ofrecer una vista para gestionar personas y casos de uso.
+2. CUANDO el usuario crea o edita una persona, ENTONCES el sistema DEBERÁ exigir
+   `nombre` y `rol` no vacíos.
+3. CUANDO el usuario crea o edita un caso de uso, ENTONCES el sistema DEBERÁ exigir
+   `nombre`, un `riesgoNIST` válido (`bajo`|`medio`|`alto`) y `descripcion`.
+4. SI el usuario intenta eliminar una persona o un caso de uso con asignaciones
+   asociadas, ENTONCES el sistema DEBERÁ impedirlo e informar del motivo.
+5. CUANDO se modifican personas o casos de uso, ENTONCES las vistas dependientes
+   (tabla, resúmenes) DEBERÁN reflejar los cambios.

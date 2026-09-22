@@ -224,9 +224,19 @@ ai-team-assignments/
 - Verificación manual del flujo en las tres vistas.
 
 ## Decisiones y supuestos
-1. Sin backend ni persistencia entre recargas (el estado parte siempre del seed).
-2. Personas y casos de uso son fijos en esta versión; sólo las asignaciones se editan.
+1. Sin backend. **Persistencia en `localStorage`**: al iniciar se restaura el estado
+   guardado; si no existe, se parte del `seed.json`. Un botón «Reiniciar datos»
+   borra lo guardado y recarga el seed.
+2. Personas y casos de uso son **editables** (CRUD completo) desde la vista «Equipo y
+   casos». No se permite eliminar una persona o un caso que tenga asignaciones.
 3. Carga = suma simple de `dedicacionPct` (sin ponderar solapamiento de fechas).
 4. `riesgoNIST` es una simplificación cualitativa de tres niveles inspirada en NIST
    AI RMF, aplicada a datos ficticios y con nota de atribución en la UI.
-5. IDs generados con `crypto.randomUUID()` al crear asignaciones.
+5. IDs generados con `crypto.randomUUID()` al crear asignaciones, personas y casos.
+6. La lógica pura de `src/lib/` se cubre con pruebas unitarias (Vitest).
+
+## Ampliaciones incorporadas (post-spec inicial)
+- **Persistencia en `localStorage`** con reinicio al seed (ver store `AppProvider`).
+- **CRUD de personas y casos de uso** con formularios y validación propios
+  (`PersonaForm`, `CasoForm`, `ManageTeam`), con borrado protegido por referencias.
+- **Suite de tests** (`*.test.ts`) para `workload`, `risk` y `validation`.

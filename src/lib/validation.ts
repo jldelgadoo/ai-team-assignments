@@ -38,3 +38,40 @@ export function validarAsignacion(values: AsignacionFormValues): FormErrors {
 export function esValido(errors: FormErrors): boolean {
   return Object.keys(errors).length === 0;
 }
+
+
+export interface PersonaFormValues {
+  nombre: string;
+  rol: string;
+}
+
+export type PersonaFormErrors = Partial<Record<keyof PersonaFormValues, string>>;
+
+/** Valida el formulario de persona. */
+export function validarPersona(values: PersonaFormValues): PersonaFormErrors {
+  const errors: PersonaFormErrors = {};
+  if (!values.nombre.trim()) errors.nombre = 'Indica el nombre.';
+  if (!values.rol.trim()) errors.rol = 'Indica el rol.';
+  return errors;
+}
+
+export interface CasoFormValues {
+  nombre: string;
+  riesgoNIST: string;
+  descripcion: string;
+}
+
+export type CasoFormErrors = Partial<Record<keyof CasoFormValues, string>>;
+
+const RIESGOS_VALIDOS = ['bajo', 'medio', 'alto'];
+
+/** Valida el formulario de caso de uso. */
+export function validarCaso(values: CasoFormValues): CasoFormErrors {
+  const errors: CasoFormErrors = {};
+  if (!values.nombre.trim()) errors.nombre = 'Indica el nombre.';
+  if (!RIESGOS_VALIDOS.includes(values.riesgoNIST)) {
+    errors.riesgoNIST = 'Selecciona un nivel de riesgo.';
+  }
+  if (!values.descripcion.trim()) errors.descripcion = 'Indica una descripción.';
+  return errors;
+}

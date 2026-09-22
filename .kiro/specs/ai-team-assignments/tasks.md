@@ -65,7 +65,13 @@
   - _Requisitos: 6.3_
 
 - [ ] 12. Verificación final
-  - Ejecutar `npm run build` (type-check) y comprobar manualmente las tres vistas y el flujo crear/editar/eliminar.
+  - Ejecutar `npm run build` (type-check) y comprobar manualmente las vistas y el flujo crear/editar/eliminar.
   - _Requisitos: todos_
 
-> Nota: las pruebas unitarias de `src/lib/` con Vitest se añadirán solo si lo solicitas explícitamente.
+## Ampliaciones incorporadas
+
+- [x] 13. Persistencia en `localStorage` con carga inicial y botón «Reiniciar datos».
+- [x] 14. CRUD de personas y casos de uso (vista «Equipo y casos») con validación y
+  borrado protegido cuando existen asignaciones que los referencian.
+- [x] 15. Tests de la lógica pura con Vitest (`workload`, `risk`, `validation`) y
+  script `npm test`.
