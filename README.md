@@ -59,3 +59,35 @@ npm test         # tests de la lógica (Vitest)
 
 La especificación completa (requisitos, diseño y tareas) está en
 [`.kiro/specs/ai-team-assignments/`](.kiro/specs/ai-team-assignments/).
+
+## Cómo se construyó con Kiro
+
+Este proyecto se desarrolló de forma asistida con **Kiro**, aprovechando varias de
+sus capacidades:
+
+- **Spec-driven development** — la funcionalidad se definió primero como
+  especificación (requisitos → diseño → tareas) en
+  [`.kiro/specs/ai-team-assignments/`](.kiro/specs/ai-team-assignments/), y la
+  implementación se fue completando tarea a tarea.
+- **Steering** — convenciones y contexto del proyecto viven en
+  [`.kiro/steering/`](.kiro/steering/), de modo que las contribuciones siguen las
+  mismas reglas de forma consistente.
+- **Agente personalizado de confidencialidad** —
+  [`.kiro/agents/confidentiality-reviewer.md`](.kiro/agents/confidentiality-reviewer.md)
+  es un revisor de solo lectura que verifica que el repo use únicamente datos
+  sintéticos, busca rastros de datos reales y valida los niveles de riesgo NIST. Su
+  último informe está en [`docs/confidentiality-review.md`](docs/confidentiality-review.md)
+  (veredicto: **APROBADO**).
+- **Hook de type-check** — un hook en [`.kiro/hooks/`](.kiro/hooks/) ejecuta la
+  verificación de tipos al guardar, para detectar errores de TypeScript de forma
+  temprana.
+- **Servidor MCP de PowerPoint** — el informe ejecutivo
+  [`docs/Informe_Asignaciones.pptx`](docs/Informe_Asignaciones.pptx) (16:9, con
+  tabla de carga y semáforo, gráfico de barras de foco por riesgo y casos de alto
+  riesgo) se generó a partir de `public/seed.json` mediante el servidor MCP `ppt`
+  configurado en [`.kiro/settings/mcp.json`](.kiro/settings/mcp.json).
+- **Flujo con Git/GitHub** — cada entregable se integró mediante ramas y Pull
+  Requests revisables, en lugar de commits directos a `main`.
+
+Todo el contenido generado (nombres, casos de uso y cifras) es **sintético y
+ficticio**; no contiene información real de ninguna organización.
