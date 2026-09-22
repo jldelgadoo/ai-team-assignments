@@ -1,0 +1,62 @@
+{
+  "personas": [
+    { "id": "p1", "nombre": "Lucía Marín", "rol": "ML Engineer" },
+    { "id": "p2", "nombre": "Diego Ferrán", "rol": "Data Scientist" },
+    { "id": "p3", "nombre": "Aisha Nassiri", "rol": "MLOps Engineer" },
+    { "id": "p4", "nombre": "Bruno Salgado", "rol": "AI Product Manager" },
+    { "id": "p5", "nombre": "Yuki Tanaka", "rol": "Responsible AI Lead" },
+    { "id": "p6", "nombre": "Elena Rossi", "rol": "Prompt Engineer" }
+  ],
+  "casosUso": [
+    {
+      "id": "c1",
+      "nombre": "Asistente interno de documentación",
+      "riesgoNIST": "bajo",
+      "descripcion": "Chatbot RAG sobre documentación interna del equipo. Impacto limitado y sin datos sensibles."
+    },
+    {
+      "id": "c2",
+      "nombre": "Resumen de tickets de soporte",
+      "riesgoNIST": "bajo",
+      "descripcion": "Resúmenes automáticos de conversaciones de soporte para uso interno del agente."
+    },
+    {
+      "id": "c3",
+      "nombre": "Priorización de leads comerciales",
+      "riesgoNIST": "medio",
+      "descripcion": "Modelo de scoring que ordena oportunidades de venta; requiere supervisión humana y control de sesgos."
+    },
+    {
+      "id": "c4",
+      "nombre": "Detección de fraude en pagos",
+      "riesgoNIST": "medio",
+      "descripcion": "Clasificador de transacciones sospechosas con revisión manual de casos marcados."
+    },
+    {
+      "id": "c5",
+      "nombre": "Cribado automático de candidaturas",
+      "riesgoNIST": "alto",
+      "descripcion": "Sistema de apoyo a decisiones de contratación; alto impacto en personas y obligaciones de equidad y transparencia."
+    },
+    {
+      "id": "c6",
+      "nombre": "Triaje clínico asistido",
+      "riesgoNIST": "alto",
+      "descripcion": "Recomendación de prioridad en atención sanitaria; alto riesgo, requiere validación clínica y trazabilidad."
+    }
+  ],
+  "asignaciones": [
+    { "id": "a1", "personaId": "p1", "casoUsoId": "c5", "dedicacionPct": 60, "desde": "2026-09-01", "hasta": "2026-12-15" },
+    { "id": "a2", "personaId": "p1", "casoUsoId": "c1", "dedicacionPct": 30, "desde": "2026-09-01", "hasta": "2026-10-31" },
+    { "id": "a3", "personaId": "p2", "casoUsoId": "c3", "dedicacionPct": 50, "desde": "2026-08-15", "hasta": "2026-11-30" },
+    { "id": "a4", "personaId": "p2", "casoUsoId": "c4", "dedicacionPct": 40, "desde": "2026-09-10", "hasta": "2026-12-20" },
+    { "id": "a5", "personaId": "p3", "casoUsoId": "c6", "dedicacionPct": 70, "desde": "2026-09-01", "hasta": "2027-01-31" },
+    { "id": "a6", "personaId": "p3", "casoUsoId": "c4", "dedicacionPct": 45, "desde": "2026-09-05", "hasta": "2026-11-15" },
+    { "id": "a7", "personaId": "p4", "casoUsoId": "c3", "dedicacionPct": 25, "desde": "2026-09-01", "hasta": "2026-12-31" },
+    { "id": "a8", "personaId": "p4", "casoUsoId": "c5", "dedicacionPct": 25, "desde": "2026-09-01", "hasta": "2026-12-31" },
+    { "id": "a9", "personaId": "p5", "casoUsoId": "c6", "dedicacionPct": 40, "desde": "2026-09-01", "hasta": "2027-02-28" },
+    { "id": "a10", "personaId": "p5", "casoUsoId": "c5", "dedicacionPct": 30, "desde": "2026-09-01", "hasta": "2026-12-15" },
+    { "id": "a11", "personaId": "p6", "casoUsoId": "c1", "dedicacionPct": 35, "desde": "2026-09-01", "hasta": "2026-11-30" },
+    { "id": "a12", "personaId": "p6", "casoUsoId": "c2", "dedicacionPct": 20, "desde": "2026-09-01", "hasta": "2026-10-31" }
+  ]
+}
