@@ -240,3 +240,55 @@ ai-team-assignments/
 - **CRUD de personas y casos de uso** con formularios y validación propios
   (`PersonaForm`, `CasoForm`, `ManageTeam`), con borrado protegido por referencias.
 - **Suite de tests** (`*.test.ts`) para `workload`, `risk` y `validation`.
+
+---
+
+## Estrategia de pruebas: ejemplos + propiedades
+
+La lógica pura de `src/lib/` se prueba en dos capas complementarias:
+
+1. **Example-based (Vitest):** casos concretos que documentan comportamientos
+   representativos y bordes conocidos (`*.test.ts`).
+2. **Property-based (fast-check sobre Vitest):** propiedades universales derivadas
+   de los requisitos EARS (`*.pbt.test.ts`). En lugar de enumerar ejemplos, se
+   describe un invariante que debe cumplirse para **toda** entrada válida y
+   fast-check genera cientos de casos, incluyendo bordes y valores raros. Cuando
+   halla un contraejemplo, lo reduce (shrinking) al mínimo que reproduce el fallo.
+
+### Generadores (`src/lib/arbitraries.ts`)
+- `personaArb`, `casoUsoArb`: entidades del dominio con campos válidos.
+- `escenarioArb`: genera un conjunto **coherente** (ids únicos; cada asignación
+  referencia una persona y un caso existentes), de modo que los invariantes de
+  conservación se puedan afirmar sin ruido de referencias huérfanas.
+
+### Propiedades por módulo
+- **workload:** fronteras y monotonía del semáforo; suma exacta y conservación de
+  la carga; una fila por persona; orden descendente; efecto aditivo de agregar una
+  asignación.
+- **risk:** los tres niveles NIST siempre presentes y no negativos; suma por nivel;
+  total agregado igual a la suma global; robustez ante asignaciones huérfanas.
+- **validation:** aceptación de dedicación entera 1..100 y rechazo fuera de rango o
+  no entera; error cuando `hasta` < `desde`; obligatoriedad de persona y caso.
+
+> La lección de property-based testing de Kiro es exclusiva del IDE de escritorio,
+> por lo que esta capa se desarrolló clonando el repositorio (creado en Kiro Web)
+> al IDE local.
+
+## Power: guardián de confidencialidad
+
+El custom agent `confidentiality-reviewer` (`.kiro/agents/`) se reempaqueta como
+Power portable en `powers/confidentiality-guard/`, conforme a **Agent Plugins
+v1.0.0**:
+
+```
+powers/confidentiality-guard/
+├── plugin.json                 # manifiesto (schema 1.0.0)
+└── skills/confidentiality-review/
+    ├── SKILL.md                # guía: localizar seed, verificar, escanear, validar riesgo, veredicto
+    ├── references/report-template.md
+    └── scripts/scan.sh         # barrido de rastros (solo lectura)
+```
+
+El skill se activa por palabras clave (confidencialidad, datos sintéticos, NIST AI
+RMF) y mantiene el mismo objetivo del agente: garantizar que el repo use solo datos
+sintéticos, sin filtrar información real, con niveles de riesgo coherentes.

@@ -189,3 +189,57 @@ personas y casos de uso, para mantener actualizado el catálogo del equipo.
    asociadas, ENTONCES el sistema DEBERÁ impedirlo e informar del motivo.
 5. CUANDO se modifican personas o casos de uso, ENTONCES las vistas dependientes
    (tabla, resúmenes) DEBERÁN reflejar los cambios.
+
+---
+
+## Requisito 9 — Correctness verificable con property-based testing
+
+**Historia de usuario:** Como responsable de la calidad del proyecto, quiero que la
+lógica pura del dominio se verifique con propiedades universales (no solo con
+ejemplos), para tener evidencia de que la implementación se ajusta a lo
+especificado en un amplio espacio de entradas.
+
+### Contexto
+Las propiedades son enunciados universales derivados de los criterios de
+aceptación anteriores ("para toda entrada válida ... se cumple ..."). Se prueban
+con **property-based testing** (fast-check sobre Vitest), que genera cientos de
+entradas aleatorias y reduce cualquier contraejemplo al caso mínimo (shrinking).
+
+### Criterios de aceptación
+1. PARA TODA carga total ≥ 0, `estadoSemaforo` DEBERÁ respetar las fronteras 70 y
+   100 (Requisito 4.2–4.4) y ser monótono (más carga nunca da un estado menos
+   cargado).
+2. PARA TODO escenario de personas y asignaciones, la carga por persona DEBERÁ ser
+   la **suma exacta** de la dedicación de sus asignaciones (Requisito 4.1), no
+   negativa, con una fila por persona y ordenada de forma descendente (Requisito
+   2.4).
+3. PARA TODO escenario, la suma de las cargas por persona DEBERÁ igualar la suma
+   global de la dedicación de las asignaciones (conservación).
+4. PARA TODO escenario, `capacidadPorRiesgo` DEBERÁ exponer los tres niveles NIST
+   con valores no negativos (Requisito 5.3) y cada nivel DEBERÁ ser la suma de la
+   dedicación de las asignaciones cuyo caso tiene ese riesgo (Requisito 5.1).
+5. PARA TODA dedicación entera en 1..100 la validación DEBERÁ aceptarla, y PARA
+   TODA dedicación fuera de rango o no entera DEBERÁ rechazarla (Requisito 3.4).
+6. PARA TODO par de fechas con `hasta` < `desde`, la validación DEBERÁ reportar
+   error en `hasta` (Requisito 3.5).
+
+_Nota: la lección oficial de property-based testing de Kiro es exclusiva del IDE
+de escritorio; esta parte se desarrolló clonando el repo desde Kiro Web al IDE._
+
+---
+
+## Requisito 10 — Power de guardián de confidencialidad
+
+**Historia de usuario:** Como mantenedor, quiero empaquetar el revisor de
+confidencialidad como un Power reutilizable, para poder aplicar la misma revisión
+en otros proyectos que manejen datos de ejemplo.
+
+### Criterios de aceptación
+1. EL repositorio DEBERÁ incluir un Power conforme a la especificación **Agent
+   Plugins v1.0.0** en `powers/confidentiality-guard/`, con `plugin.json` válido.
+2. EL Power DEBERÁ exponer un skill (`confidentiality-review`) que verifique datos
+   sintéticos, busque rastros de datos reales y valide los niveles de riesgo NIST
+   (mismos objetivos que el custom agent `confidentiality-reviewer`).
+3. EL skill DEBERÁ incluir una plantilla de informe (`references/`) y un script de
+   barrido de solo lectura (`scripts/`).
+4. EL Power NO DEBERÁ modificar archivos: es de solo lectura (analiza y reporta).
