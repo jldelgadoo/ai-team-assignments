@@ -1,0 +1,20 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "confidentiality-guard",
+  "version": "1.0.0",
+  "description": "Revisa que un proyecto use solo datos sintéticos y no exponga información real de ninguna organización. Verifica nombres, casos de uso y clasificación de riesgo según marcos públicos (NIST AI RMF).",
+  "author": {
+    "name": "José Luis D.",
+    "url": "https://github.com/jldelgadoo"
+  },
+  "keywords": [
+    "confidencialidad",
+    "datos-sinteticos",
+    "nist-ai-rmf",
+    "revision",
+    "privacidad",
+    "seed-data"
+  ],
+  "license": "MIT",
+  "repository": "https://github.com/jldelgadoo/ai-team-assignments"
+}
