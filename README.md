@@ -13,7 +13,7 @@ clasifica siguiendo el marco público **NIST AI Risk Management Framework (AI RM
 
 - React 18 + TypeScript
 - Vite
-- Vitest (tests de la lógica pura)
+- Vitest + **fast-check** (tests por ejemplos y basados en propiedades de la lógica pura)
 - Sin backend: los datos iniciales se cargan desde `public/seed.json` y los cambios
   se guardan en el navegador (`localStorage`).
 
@@ -62,32 +62,52 @@ La especificación completa (requisitos, diseño y tareas) está en
 
 ## Cómo se construyó con Kiro
 
-Este proyecto se desarrolló de forma asistida con **Kiro**, aprovechando varias de
-sus capacidades:
+Este proyecto se desarrolló de forma asistida con **Kiro**. A continuación, cómo se
+demuestra cada lección del *Kiro University Challenge*:
+
+| # | Lección | Evidencia en el repo |
+|---|---------|----------------------|
+| 1 | **Spec-driven development** | [`.kiro/specs/ai-team-assignments/`](.kiro/specs/ai-team-assignments/): requisitos (EARS) → diseño → tareas, completadas una a una. |
+| 2 | **Steering** | [`.kiro/steering/product.md`](.kiro/steering/product.md): contexto, stack, modelo de datos y regla de confidencialidad. |
+| 3 | **Hooks** | [`.kiro/hooks/typecheck-on-save.json`](.kiro/hooks/): type-check de TypeScript al guardar. |
+| 4 | **Property-based testing** (IDE) | `src/lib/*.pbt.test.ts` + [`src/lib/arbitraries.ts`](src/lib/arbitraries.ts): 17 propiedades con **fast-check** ligadas a los requisitos EARS (ver Requisito 9). |
+| 5 | **Powers** | [`powers/confidentiality-guard/`](powers/confidentiality-guard/): el revisor de confidencialidad empaquetado como Power (Agent Plugins v1.0.0). |
+| 6 | **MCP** | [`.kiro/settings/mcp.json`](.kiro/settings/mcp.json): servidor `ppt` que generó [`docs/Informe_Asignaciones.pptx`](docs/Informe_Asignaciones.pptx) desde `public/seed.json`. |
+| 7 | **Custom agents** | [`.kiro/agents/confidentiality-reviewer.md`](.kiro/agents/confidentiality-reviewer.md): revisor de solo lectura; informe en [`docs/confidentiality-review.md`](docs/confidentiality-review.md) (**APROBADO**). |
+| B1 | **Kiro Web + cloud** (bonus) | El proyecto se creó y desarrolló en **Kiro Web** (sesiones y configuración en la nube); la lección 4 (IDE-only) se hizo clonando el repo al **IDE de escritorio**. |
+| B2 | **Empaquetar un Power** (bonus) | [`powers/confidentiality-guard/plugin.json`](powers/confidentiality-guard/plugin.json) + skill con `references/` y `scripts/`. |
+
+### Detalle de las capacidades
 
 - **Spec-driven development** — la funcionalidad se definió primero como
-  especificación (requisitos → diseño → tareas) en
-  [`.kiro/specs/ai-team-assignments/`](.kiro/specs/ai-team-assignments/), y la
-  implementación se fue completando tarea a tarea.
-- **Steering** — convenciones y contexto del proyecto viven en
-  [`.kiro/steering/`](.kiro/steering/), de modo que las contribuciones siguen las
-  mismas reglas de forma consistente.
-- **Agente personalizado de confidencialidad** —
-  [`.kiro/agents/confidentiality-reviewer.md`](.kiro/agents/confidentiality-reviewer.md)
-  es un revisor de solo lectura que verifica que el repo use únicamente datos
-  sintéticos, busca rastros de datos reales y valida los niveles de riesgo NIST. Su
-  último informe está en [`docs/confidentiality-review.md`](docs/confidentiality-review.md)
-  (veredicto: **APROBADO**).
-- **Hook de type-check** — un hook en [`.kiro/hooks/`](.kiro/hooks/) ejecuta la
-  verificación de tipos al guardar, para detectar errores de TypeScript de forma
-  temprana.
-- **Servidor MCP de PowerPoint** — el informe ejecutivo
-  [`docs/Informe_Asignaciones.pptx`](docs/Informe_Asignaciones.pptx) (16:9, con
-  tabla de carga y semáforo, gráfico de barras de foco por riesgo y casos de alto
-  riesgo) se generó a partir de `public/seed.json` mediante el servidor MCP `ppt`
-  configurado en [`.kiro/settings/mcp.json`](.kiro/settings/mcp.json).
+  especificación (requisitos → diseño → tareas) y la implementación se completó
+  tarea a tarea.
+- **Steering** — convenciones y contexto del proyecto viven en `.kiro/steering/`,
+  de modo que las contribuciones siguen las mismas reglas de forma consistente.
+- **Property-based testing** — además de los tests por ejemplos, la lógica pura de
+  `src/lib/` se verifica con **propiedades universales** (fast-check sobre Vitest):
+  invariantes de carga por persona, agregación por riesgo NIST y validación de
+  formularios. Cada propiedad deriva de un requisito EARS. Esta lección es
+  exclusiva del IDE de escritorio, así que el repo (creado en Kiro Web) se clonó al
+  IDE local para desarrollarla.
+- **Powers** — el revisor de confidencialidad se reempaqueta como Power portable
+  (`powers/confidentiality-guard/`) conforme a Agent Plugins v1.0.0, instalable en
+  cualquier proyecto que maneje datos de ejemplo.
+- **MCP** — el informe ejecutivo `docs/Informe_Asignaciones.pptx` (16:9, con tabla
+  de carga y semáforo, gráfico de foco por riesgo y casos de alto riesgo) se generó
+  a partir de `public/seed.json` mediante el servidor MCP `ppt`.
+- **Custom agents** — el agente `confidentiality-reviewer` verifica que el repo use
+  únicamente datos sintéticos, busca rastros de datos reales y valida los niveles
+  de riesgo NIST (último veredicto: **APROBADO**).
+- **Hooks** — un hook ejecuta la verificación de tipos al guardar.
 - **Flujo con Git/GitHub** — cada entregable se integró mediante ramas y Pull
   Requests revisables, en lugar de commits directos a `main`.
+
+### Pruebas
+
+```bash
+npm test    # 35 tests: 18 por ejemplos + 17 basados en propiedades (fast-check)
+```
 
 Todo el contenido generado (nombres, casos de uso y cifras) es **sintético y
 ficticio**; no contiene información real de ninguna organización.

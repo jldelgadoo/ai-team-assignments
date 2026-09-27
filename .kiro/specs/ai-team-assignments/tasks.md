@@ -75,3 +75,29 @@
   borrado protegido cuando existen asignaciones que los referencian.
 - [x] 15. Tests de la lógica pura con Vitest (`workload`, `risk`, `validation`) y
   script `npm test`.
+
+## Correctness y empaquetado (lecciones 4 y 5)
+
+- [x] 16. Property-based testing de la lógica pura con fast-check (Requisito 9).
+  - [x] 16.1 Añadir `fast-check` como devDependency y `src/lib/arbitraries.ts` con
+    generadores del dominio (persona, caso, escenario coherente con referencias
+    válidas).
+  - [x] 16.2 `workload.pbt.test.ts`: propiedades de `estadoSemaforo` (fronteras y
+    monotonía) y de `cargaPorPersona` (suma exacta, no negatividad, orden,
+    conservación, efecto de agregar una asignación). _Requisitos: 9.1, 9.2, 9.3_
+  - [x] 16.3 `risk.pbt.test.ts`: propiedades de `capacidadPorRiesgo` (tres niveles
+    siempre presentes, suma por nivel, total agregado, robustez ante casos
+    huérfanos). _Requisitos: 9.4_
+  - [x] 16.4 `validation.pbt.test.ts`: propiedades de `validarAsignacion`
+    (dedicación 1..100, rechazo fuera de rango, `hasta` < `desde`, obligatorios).
+    _Requisitos: 9.5, 9.6_
+  - _Nota: PBT es lección IDE-only; se clonó el repo de Kiro Web al IDE de
+    escritorio para esta tarea._
+
+- [x] 17. Empaquetar el revisor de confidencialidad como Kiro Power (Requisito 10).
+  - [x] 17.1 `powers/confidentiality-guard/plugin.json` conforme a Agent Plugins
+    v1.0.0. _Requisitos: 10.1_
+  - [x] 17.2 `skills/confidentiality-review/SKILL.md` con guía paso a paso.
+    _Requisitos: 10.2_
+  - [x] 17.3 `references/report-template.md` y `scripts/scan.sh` (solo lectura).
+    _Requisitos: 10.3, 10.4_
